@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 districts = (
     ('tvm','Thiruvananthapuram'),
@@ -113,6 +114,6 @@ class RequestLog(models.Model):
     details = models.TextField(blank=True, null=True)
 
 
-class RequestLog(models.Model):
+class AssignedRequest(models.Model):
     request = models.ForeignKey(Request, on_delete=None)
-    details = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=None)
