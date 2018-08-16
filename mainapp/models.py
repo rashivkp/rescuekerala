@@ -20,7 +20,7 @@ districts = (
 status_types =(
     ('new', 'New'),
     ('pro', 'In progess'),
-    ('sup', 'Supplied'),
+    ('cmp', 'Completed'),
 )
 
 contrib_status_types =(
@@ -44,12 +44,13 @@ vol_categories = (
 
 class Request(models.Model):
     district = models.CharField(
+        blank=True,
         max_length = 15,
         choices = districts,
         verbose_name='Districts - ജില്ല'
     )
-    location = models.CharField(max_length=500,verbose_name='Location - സ്ഥലം')
-    requestee = models.CharField(max_length=100,verbose_name='Requestee - അപേക്ഷകന്‍റെ പേര്')
+    location = models.CharField(blank=True, max_length=500,verbose_name='Location - സ്ഥലം')
+    requestee = models.CharField(blank=True, max_length=100,verbose_name='Requestee - അപേക്ഷകന്‍റെ പേര്')
     requestee_phone = models.CharField(max_length=10,verbose_name='Requestee Phone - അപേക്ഷകന്‍റെ ഫോണ്‍ നമ്പര്‍')
 
     needwater = models.BooleanField(verbose_name='Water - വെള്ളം')
@@ -95,6 +96,11 @@ class Request(models.Model):
 
     def __str__(self):
         return self.get_district_display() + ' ' + self.location
+
+    def save(self, **kwargs):
+        if self.id:
+            self.status = 'cmp'
+        return super(Request, self).save(**kwargs)
 
 class Volunteer(models.Model):
     district = models.CharField(
@@ -167,3 +173,8 @@ class DistrictCollection(models.Model):
     collection = models.TextField(
         verbose_name="Details of collected items"
     )
+
+class NewRequest(Request):
+    class Meta:
+        proxy = True
+
