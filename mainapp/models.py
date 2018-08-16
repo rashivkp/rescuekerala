@@ -111,3 +111,8 @@ class NewRequest(Request):
 class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=None)
     details = models.TextField(blank=True, null=True)
+
+
+class RequestLog(models.Model):
+    request = models.ForeignKey(Request, on_delete=None)
+    details = models.TextField(blank=True, null=True)
