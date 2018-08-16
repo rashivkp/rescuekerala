@@ -2,13 +2,19 @@ from django.contrib import admin
 from .models import Request, NewRequest
 import csv
 from django.http import HttpResponse
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 class NewRequestAdmin(admin.ModelAdmin):
     actions = ['download_csv']
     readonly_fields = ('dateadded',)
     exclude = ('status', 'user',)
     ordering = ('district',)
-    list_display = ['requestee_phone', 'status', 'district', 'location', 'dateadded']
+    list_display = ['requestee_phone', 'status', 'district', 'location', 'dateadded', 'show_request']
+
+    def show_request(self, obj):
+        return format_html(mark_safe('<a href="/api/view/%s/">View</a>' % obj.id))
+
     def download_csv(self, request, queryset):
         f = open('test.csv', 'w')
         writer = csv.writer(f)

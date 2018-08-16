@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<table class="table">
+  <tbody>
+  <tr>
+    <th>District - ജില്ല'</th>
+    <td> {{ req.id }}</td>
+  </tr>
+  <tr>
+    <th>Requestee - അപേക്ഷകന്‍റെ പേര്</th>
+    <td>{{ req.requestee }}</td>
+  </tr>
+  <tr>
+    <th>Requestee Phone - അപേക്ഷകന്‍റെ ഫോണ്‍ നമ്പര്‍</th>
+    <td>{{ req.requestee_phone }}</td>
+  </tr>
+  <tr>
+    <th>Location - സ്ഥലം</th>
+    <td>{{ req.location }}</td>
+  </tr>
+  <tr>
+    <th>Water - വെള്ളം</th>
+    <td>{{ req.needwater  }}</td>
+  </tr>
+  <tr>
+    <th>Details for required water - ആവശ്യമായ വെള്ളത്തിന്‍റെ വിവരങ്ങള്‍</th>
+    <td>{{ req.detailwater  }}</td>
+  </tr>
+  <tr>
+    <th>Food - ഭക്ഷണം</th>
+    <td>{{ req.needfood  }}</td>
+  </tr>
+  <tr>
+    <th>Details for required food - ആവശ്യമായ ഭക്ഷണത്തിന്‍റെ വിവരങ്ങള്‍</th>
+    <td>{{ req.detailfood }}</td>
+  </tr>
+  <tr>
+    <th>Clothing - വസ്ത്രം</th>
+    <td>{{ req.needcloth }}</td>
+  </tr>
+  <tr>
+    <th>Details for required clothing - ആവശ്യമായ വസ്ത്രത്തിന്‍റെ വിവരങ്ങള്‍</th>
+    <td>{{ req.detailcloth }}</td>
+  </tr>
+  <tr>
+    <th>Medicine - മരുന്നുകള്‍</th>
+    <td>{{ req.needmed }}</td>
+  </tr>
+  <tr>
+    <th>Details for required medicine - ആവശ്യമായ മരുന്നിന്‍റെ  വിവരങ്ങള്‍</th>
+    <td>{{ req.detailmed }}</td>
+  </tr>
+  <tr>
+    <th>Toiletries - ശുചീകരണ സാമഗ്രികള്‍ </th>
+    <td>{{ req.needtoilet }}</td>
+  </tr>
+  <tr>
+    <th>Details for required toiletries - ആവശ്യമായ  ശുചീകരണ സാമഗ്രികള്‍</th>
+    <td>{{ req.detailtoilet }}</td>
+  </tr>
+  <tr>
+    <th>Kitchen utensil - അടുക്കള സാമഗ്രികള്‍</th>
+    <td>{{ req.needkit_util }}</td>
+  </tr>
+  <tr>
+    <th>Details for required kitchen utensil - ആവശ്യമായ അടുക്കള സാമഗ്രികള്‍</th>
+    <td>{{ req.detailkit_util }}</td>
+  </tr>
+  <tr>
+    <th>"Other needs - മറ്റു ആവശ്യങ്ങള്‍</th>
+    <td>{{ req.needothers }}</td>
+  </tr>
+  </tbody>
+</table>
+
+{% endblock %}

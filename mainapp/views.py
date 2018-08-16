@@ -17,4 +17,12 @@ def proces_log(request):
 
     return HttpResponse('')
 
+def view_request(request, pk):
+    try:
+        req = Request.objects.get(pk=pk)
+    except:
+        return HttpResponse('')
+
+    return render(request, 'request_view.html', {'req':req})
+
 
