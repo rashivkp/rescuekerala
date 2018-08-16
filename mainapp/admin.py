@@ -29,7 +29,15 @@ class NewRequestAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(NewRequestAdmin, self).get_queryset(request)
-        return qs.filter(status='new')
+        if request.user.is_superuser:
+            return qs
+        if qs.filter(user=request.user).count() == 0:
+            for req in qs.filter(status='new', user=None).order_by('id')[:5]:
+                req.user = request.user
+                req.save()
+                print(req.id)
+
+        return qs.filter(status='pro', user=request.user)
 
 
 class RequestAdmin(admin.ModelAdmin):
@@ -57,8 +65,6 @@ class RequestAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(RequestAdmin, self).get_queryset(request)
-        if request.user.is_superuser:
-            return qs
         return qs.filter(status='new')
 
 

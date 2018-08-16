@@ -44,6 +44,7 @@ vol_categories = (
 )
 
 class Request(models.Model):
+    user = models.ForeignKey(User, on_delete=None, blank=True, null=True)
     district = models.CharField(
         blank=True, null=True,
         max_length = 15,
@@ -99,8 +100,11 @@ class Request(models.Model):
         return str(self.get_district_display()) + ' ' + str(self.location)
 
     def save(self, **kwargs):
-        if self.id:
+        if self.user and self.status == 'new':
+            self.status = 'pro'
+        elif self.user and self.status == 'pro':
             self.status = 'cmp'
+
         return super(Request, self).save(**kwargs)
 
 
@@ -108,12 +112,15 @@ class NewRequest(Request):
     class Meta:
         proxy = True
 
+    def save(self, **kwargs):
+        if self.user and self.status == 'new':
+            self.status = 'pro'
+        elif self.user and self.status == 'pro':
+            self.status = 'cmp'
+
+        return super(Request, self).save(**kwargs)
+
 
 class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=None)
     details = models.TextField(blank=True, null=True)
-
-
-class AssignedRequest(models.Model):
-    request = models.ForeignKey(Request, on_delete=None)
-    user = models.ForeignKey(User, on_delete=None)
