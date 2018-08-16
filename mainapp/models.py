@@ -44,7 +44,7 @@ vol_categories = (
 )
 
 class Request(models.Model):
-    user = models.ForeignKey(User, on_delete=None, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     district = models.CharField(
         blank=True, null=True,
         max_length = 15,
@@ -76,7 +76,7 @@ class Request(models.Model):
     )
     supply_details = models.CharField(max_length=100, blank=True, null=True)
     dateadded = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def summarise(self):
         return 1
@@ -123,5 +123,5 @@ class NewRequest(Request):
 
 
 class RequestLog(models.Model):
-    request = models.ForeignKey(Request, on_delete=None)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE)
     details = models.TextField(blank=True, null=True)

@@ -70,7 +70,7 @@ class RequestAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(RequestAdmin, self).get_queryset(request)
-        return qs.filter(status='new')
+        return qs
 
 
 class VolunteerAdmin(admin.ModelAdmin):
@@ -81,5 +81,5 @@ class VolunteerAdmin(admin.ModelAdmin):
 class ContributorAdmin(admin.ModelAdmin):
     list_filter = ('district', 'status',)
 
-#admin.site.register(Request, RequestAdmin)
+admin.site.register(Request, RequestAdmin)
 admin.site.register(NewRequest, NewRequestAdmin)
