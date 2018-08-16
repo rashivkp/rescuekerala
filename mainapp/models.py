@@ -51,7 +51,7 @@ class Request(models.Model):
     )
     location = models.CharField(blank=True, null=True, max_length=500,verbose_name='Location - സ്ഥലം')
     requestee = models.CharField(blank=True, null=True, max_length=100,verbose_name='Requestee - അപേക്ഷകന്‍റെ പേര്')
-    requestee_phone = models.CharField(max_length=10,verbose_name='Requestee Phone - അപേക്ഷകന്‍റെ ഫോണ്‍ നമ്പര്‍')
+    requestee_phone = models.CharField(max_length=15,verbose_name='Requestee Phone - അപേക്ഷകന്‍റെ ഫോണ്‍ നമ്പര്‍')
 
     needwater = models.BooleanField(default=False, verbose_name='Water - വെള്ളം')
     needfood = models.BooleanField(default=False, verbose_name='Food - ഭക്ഷണം')
@@ -77,6 +77,7 @@ class Request(models.Model):
     dateadded = models.DateTimeField(auto_now_add=True)
 
     def summarise(self):
+        return 1
         out = ""
         if(self.needwater):
             out += "Water Requirements :\n {}".format(self.detailwater)
