@@ -5,3 +5,5 @@ __pycache__
 .env
 staticfiles/
 mysite.log
+*.csv
+*.swp

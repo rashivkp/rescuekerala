@@ -6,6 +6,7 @@ from django.http import HttpResponse
 class NewRequestAdmin(admin.ModelAdmin):
     actions = ['download_csv']
     readonly_fields = ('dateadded',)
+    exclude = ('status',)
     ordering = ('district',)
     list_display = ['requestee_phone', 'status', 'district', 'location']
     def download_csv(self, request, queryset):

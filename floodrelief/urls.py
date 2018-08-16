@@ -20,5 +20,6 @@ from django.conf import settings
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 urlpatterns = [
+    path('api/', include('mainapp.urls')),
     path('', admin.site.urls),
 ]
