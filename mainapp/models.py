@@ -56,17 +56,16 @@ class Request(models.Model):
     requestee_phone = models.CharField(max_length=10,verbose_name='Requestee Phone - അപേക്ഷകന്‍റെ ഫോണ്‍ നമ്പര്‍')
 
     needwater = models.BooleanField(default=False, verbose_name='Water - വെള്ളം')
-    needfood = models.BooleanField(default=False, verbose_name='Food - ഭക്ഷണം')
-    needcloth = models.BooleanField(default=False, verbose_name='Clothing - വസ്ത്രം')
-    needmed = models.BooleanField(default=False, verbose_name='Medicine - മരുന്നുകള്‍')
-    needtoilet = models.BooleanField(default=False, verbose_name='Toiletries - ശുചീകരണ സാമഗ്രികള്‍ ')
-    needkit_util = models.BooleanField(default=False, verbose_name='Kitchen utensil - അടുക്കള സാമഗ്രികള്‍')
-
     detailwater = models.CharField(max_length=250, verbose_name='Details for required water - ആവശ്യമായ വെള്ളത്തിന്‍റെ വിവരങ്ങള്‍', blank=True, null=True)
+    needfood = models.BooleanField(default=False, verbose_name='Food - ഭക്ഷണം')
     detailfood = models.CharField(max_length=250, verbose_name='Details for required food - ആവശ്യമായ ഭക്ഷണത്തിന്‍റെ വിവരങ്ങള്‍', blank=True, null=True)
+    needcloth = models.BooleanField(default=False, verbose_name='Clothing - വസ്ത്രം')
     detailcloth = models.CharField(max_length=250, verbose_name='Details for required clothing - ആവശ്യമായ വസ്ത്രത്തിന്‍റെ വിവരങ്ങള്‍', blank=True, null=True)
+    needmed = models.BooleanField(default=False, verbose_name='Medicine - മരുന്നുകള്‍')
     detailmed = models.CharField(max_length=250, verbose_name='Details for required medicine - ആവശ്യമായ മരുന്നിന്‍റെ  വിവരങ്ങള്‍', blank=True, null=True)
+    needtoilet = models.BooleanField(default=False, verbose_name='Toiletries - ശുചീകരണ സാമഗ്രികള്‍ ')
     detailtoilet = models.CharField(max_length=250, verbose_name='Details for required toiletries - ആവശ്യമായ  ശുചീകരണ സാമഗ്രികള്‍', blank=True, null=True)
+    needkit_util = models.BooleanField(default=False, verbose_name='Kitchen utensil - അടുക്കള സാമഗ്രികള്‍')
     detailkit_util = models.CharField(max_length=250, verbose_name='Details for required kitchen utensil - ആവശ്യമായ അടുക്കള സാമഗ്രികള്‍', blank=True, null=True)
 
     needothers = models.CharField(max_length=500, verbose_name="Other needs - മറ്റു ആവശ്യങ്ങള്‍", blank=True, null=True)
@@ -77,6 +76,7 @@ class Request(models.Model):
     )
     supply_details = models.CharField(max_length=100, blank=True, null=True)
     dateadded = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def summarise(self):
         out = ""

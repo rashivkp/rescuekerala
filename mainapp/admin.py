@@ -6,9 +6,9 @@ from django.http import HttpResponse
 class NewRequestAdmin(admin.ModelAdmin):
     actions = ['download_csv']
     readonly_fields = ('dateadded',)
-    exclude = ('status',)
+    exclude = ('status', 'user',)
     ordering = ('district',)
-    list_display = ['requestee_phone', 'status', 'district', 'location']
+    list_display = ['requestee_phone', 'status', 'district', 'location', 'dateadded']
     def download_csv(self, request, queryset):
         f = open('test.csv', 'w')
         writer = csv.writer(f)
@@ -35,7 +35,6 @@ class NewRequestAdmin(admin.ModelAdmin):
             for req in qs.filter(status='new', user=None).order_by('id')[:5]:
                 req.user = request.user
                 req.save()
-                print(req.id)
 
         return qs.filter(status='pro', user=request.user)
 
