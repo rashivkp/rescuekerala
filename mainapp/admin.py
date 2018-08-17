@@ -76,8 +76,17 @@ class GroundWorkerAdmin(admin.ModelAdmin):
         qs = super(GroundWorkerAdmin, self).get_queryset(request)
         return qs.filter(type='ground')
 
+class VolunteerAdmin(admin.ModelAdmin):
+    exclude = ('user',)
+    list_display = ['phone', 'type', 'district', 'panchayath', 'location']
+    list_filter = ('district', 'type')
 
-admin.site.register(Volunteer)
+    def phone(self, obj):
+        if obj.user:
+            return obj.user.username
+        return obj.location
+
+admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(GroundWorker, GroundWorkerAdmin)
 admin.site.register(Request, RequestAdmin)
 admin.site.register(NewRequest, NewRequestAdmin)

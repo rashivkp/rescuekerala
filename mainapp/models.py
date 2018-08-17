@@ -59,6 +59,7 @@ class Volunteer(models.Model):
         verbose_name='Districts - ജില്ല'
     )
     location = models.CharField(blank=True, null=True, max_length=500,verbose_name='Location')
+    panchayath = models.CharField(blank=True, null=True, max_length=500,verbose_name='Panchayath')
     type = models.CharField(
         blank=True, null=True,
         max_length = 15,

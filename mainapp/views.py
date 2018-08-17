@@ -32,6 +32,8 @@ def create_volunteer(request):
     location = request.POST.get('location')
     type = request.POST.get('type')
     name = request.POST.get('name')
+    district = request.POST.get('district')
+    panchayath = request.POST.get('panchayath')
 
     if volunteer_phone:
         if User.objects.filter(username=volunteer_phone).count():
@@ -41,7 +43,7 @@ def create_volunteer(request):
         user.is_staff = True
         user.is_active = False
         user.save()
-        volunteer = Volunteer.objects.create(user=user, location=location, type=type)
+        volunteer = Volunteer.objects.create(user=user, location=location, type=type, panchayath=panchayath, district=district)
         group, created = Group.objects.get_or_create(name='Volunteer')
         group.user_set.add(user)
         return render(request, 'volunteer_created.html', {'user':user})
