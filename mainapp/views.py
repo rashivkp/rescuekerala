@@ -55,9 +55,11 @@ def approve_volunteer(request):
         if user:
             user.is_active = True
             return HttpResponse('appproved')
-        return HttpResponse('not found')
+        else:
+            volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
+            return HttpResponse('ground worker created')
 
-    return HttpResponse('')
+    return HttpResponse('invalid')
 
 def view_request(request, pk):
     try:

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Request, NewRequest, CompletedRequest, Volunteer
+from .models import Request, NewRequest, CompletedRequest, Volunteer, GroundWorker
 import csv
 from django.http import HttpResponse
 from django.utils.html import format_html
@@ -68,7 +68,17 @@ class CompletedRequestAdmin(RequestAdmin):
             return qs.filter(status='cmp')
         return qs.filter(status='cmp', user=request.user)
 
+class GroundWorkerAdmin(admin.ModelAdmin):
+    exclude = ('user',)
+    list_display = ['location', 'type']
+
+    def get_queryset(self, request):
+        qs = super(GroundWorkerAdmin, self).get_queryset(request)
+        return qs.filter(type='ground')
+
+
 admin.site.register(Volunteer)
+admin.site.register(GroundWorker, GroundWorkerAdmin)
 admin.site.register(Request, RequestAdmin)
 admin.site.register(NewRequest, NewRequestAdmin)
 admin.site.register(CompletedRequest, CompletedRequestAdmin)

@@ -148,6 +148,9 @@ class CompletedRequest(Request):
     class Meta:
         proxy = True
 
+class GroundWorker(Volunteer):
+    class Meta:
+        proxy = True
 
 class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
