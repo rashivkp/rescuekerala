@@ -54,6 +54,8 @@ def approve_volunteer(request):
     volunteer_phone = request.GET.get('From')
 
     if volunteer_phone:
+        if len(volunteer_phone) == 11:
+            volunteer_phone = volunteer_phone[1:]
         user = User.objects.filter(username=volunteer_phone).first()
         if user:
             user.is_active = True
