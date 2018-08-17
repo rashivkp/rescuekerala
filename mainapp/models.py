@@ -122,6 +122,11 @@ class NewRequest(Request):
         return super(Request, self).save(**kwargs)
 
 
+class CompletedRequest(Request):
+    class Meta:
+        proxy = True
+
+
 class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
     details = models.TextField(blank=True, null=True)
