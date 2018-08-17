@@ -57,6 +57,7 @@ def approve_volunteer(request):
         user = User.objects.filter(username=volunteer_phone).first()
         if user:
             user.is_active = True
+            user.save()
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
