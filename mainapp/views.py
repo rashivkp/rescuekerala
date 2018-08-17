@@ -13,6 +13,8 @@ def proces_log(request):
     requestee_phone = request.GET.get('From')
 
     if requestee_phone:
+        obj, created = Request.objects.filter(requestee_phone=requestee_phone, status='new')
+
         obj, created = Request.objects.get_or_create(requestee_phone=requestee_phone,
                 status='new')
         RequestLog.objects.create(request=obj, details=json.dumps(request.GET))

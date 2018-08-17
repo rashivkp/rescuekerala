@@ -3,10 +3,12 @@
 
 {% block content %}
 
-  <form method="post">
+  <form method="post" class="form">
   {% csrf_token %}
     <label for="mobile">Your mobile: </label>
     <input id="mobile" type="text" name="mobile" value="">
+    <br>
+    <label for="mobile">Password: </label>
     <input id="password" type="password" name="password">
     <br>
   <button type="submit" class="btn btn-primary">
