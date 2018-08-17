@@ -37,7 +37,7 @@ class NewRequestAdmin(admin.ModelAdmin):
         qs = super(NewRequestAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
-        if qs.filter(user=request.user).count() == 0:
+        if qs.filter(user=request.user, status='new').count() == 0:
             for req in qs.filter(status='new', user=None).order_by('id')[:5]:
                 req.user = request.user
                 req.save()
