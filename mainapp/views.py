@@ -8,6 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import json
 from django.contrib.auth.models import User, Group
 from django import forms
+from os import system
 
 def proces_log(request):
     requestee_phone = request.GET.get('From')
@@ -57,6 +58,7 @@ def approve_volunteer(request):
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
+            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status=&Comments=&Who=ground"'.format(volunteer_phone))
             return HttpResponse('ground worker created')
 
     return HttpResponse('invalid')
