@@ -58,7 +58,8 @@ def approve_volunteer(request):
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
-            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status=&Comments=&Who=ground"'.format(volunteer_phone))
+            if created:
+                system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status=&Comments=&Who=ground"'.format(volunteer_phone))
             return HttpResponse('ground worker created')
 
     return HttpResponse('invalid')
