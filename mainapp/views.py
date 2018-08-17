@@ -44,7 +44,7 @@ def approve_volunteer(request):
 
     if volunteer_phone:
         if User.objects.filter(username=volunteer_phone).count():
-            user.is_active = False
+            user.is_active = True
             return HttpResponse('appproved')
         return HttpResponse('not found')
 
