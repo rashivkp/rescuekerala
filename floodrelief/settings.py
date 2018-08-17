@@ -39,7 +39,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['127.0.0.1', 'keralarescue.herokuapp.com', 'keralarescue.in', 'www.keralarescue.in', 'localhost', '149.56.42.47']
+ALLOWED_HOSTS = ['127.0.0.1', 'rsq.saakhi.org', 'www.rsq.saakhi.org', 'localhost', '149.56.42.47']
 #ALLOWED_HOSTS = get_list(os.environ.get('ALLOWED_HOSTS'))
 
 
