@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
-from .models import Request, RequestLog
+from .models import Request, RequestLog, Volunteer
 import django_filters
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import json
@@ -28,14 +28,19 @@ def create_volunteer(request):
 
     volunteer_phone = request.POST.get('mobile')
     password = request.POST.get('password')
+    location = request.POST.get('location')
+    type = request.POST.get('type')
+    name = request.POST.get('name')
 
     if volunteer_phone:
         if User.objects.filter(username=volunteer_phone).count():
             return HttpResponse('already exists')
         user = User.objects.create_user(volunteer_phone, '', password)
+        user.first_name = name
         user.is_staff = True
         user.is_active = False
         user.save()
+        volunteer = Volunteer.objects.create(user=user, location=location, type=type)
         group, created = Group.objects.get_or_create(name='Volunteer')
         group.user_set.add(user)
         return render(request, 'volunteer_created.html', {'user':user})

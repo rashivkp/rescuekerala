@@ -5,11 +5,25 @@
 
   <form method="post" class="form">
   {% csrf_token %}
+    <label for="name">Your name: </label>
+    <input id="name" type="text" name="name" value="">
+    <br>
     <label for="mobile">Your mobile: </label>
     <input id="mobile" type="text" name="mobile" value="">
     <br>
     <label for="mobile">Password: </label>
     <input id="password" type="password" name="password">
+    <br>
+    <label for="location">Location: </label>
+    <input id="location" type="text" name="location">
+    <br>
+    <label for="location">Type: </label>
+    <select name="type">
+      <option value="it">IT</option>
+      <option value="ground">Ground Work</option>
+      <option value="manager">Manager</option>
+      <option value="hotline">Hotline</option>
+    </select>
     <br>
   <button type="submit" class="btn btn-primary">
   {% bootstrap_icon "star" %} Register as volunteer

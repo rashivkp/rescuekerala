@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Request, NewRequest, CompletedRequest
+from .models import Request, NewRequest, CompletedRequest, Volunteer
 import csv
 from django.http import HttpResponse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from check_assignment import *
 
 
 class RequestAdmin(admin.ModelAdmin):
@@ -48,6 +49,10 @@ class NewRequestAdmin(RequestAdmin):
             return qs
         if qs.filter(user=request.user, status='new').count() == 0:
             for req in qs.filter(status='new', user=None).order_by('id')[:5]:
+                #if check_if_assigned(req.requestee_phone):
+                    #req.status = 'ais'
+                    #req.save()
+                    #continue
                 req.user = request.user
                 req.save()
 
@@ -63,6 +68,7 @@ class CompletedRequestAdmin(RequestAdmin):
             return qs.filter(status='cmp')
         return qs.filter(status='cmp', user=request.user)
 
+admin.site.register(Volunteer)
 admin.site.register(Request, RequestAdmin)
 admin.site.register(NewRequest, NewRequestAdmin)
 admin.site.register(CompletedRequest, CompletedRequestAdmin)

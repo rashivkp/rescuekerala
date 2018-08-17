@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 districts = (
     ('tvm','Thiruvananthapuram'),
@@ -18,9 +18,16 @@ districts = (
     ('kol','Kollam'),
 )
 
+volunteer_types = (
+    ('ground','Ground Work'),
+    ('it','IT'),
+    ('manager','Manager'),
+    ('hotline','Hotline'),
+)
 status_types =(
     ('new', 'New'),
     ('pro', 'In progess'),
+    ('ais', 'Assigned in Spreadsheet'),
     ('cmp', 'Completed'),
 )
 
@@ -42,6 +49,21 @@ vol_categories = (
     ('cln', 'Cleaning'),
     ('oth', 'Other')
 )
+
+class Volunteer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    district = models.CharField(
+        blank=True, null=True,
+        max_length = 15,
+        choices = districts,
+        verbose_name='Districts - ജില്ല'
+    )
+    location = models.CharField(blank=True, null=True, max_length=500,verbose_name='Location')
+    type = models.CharField(
+        blank=True, null=True,
+        max_length = 15,
+        choices = volunteer_types
+    )
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -130,3 +152,5 @@ class CompletedRequest(Request):
 class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
     details = models.TextField(blank=True, null=True)
+
+
