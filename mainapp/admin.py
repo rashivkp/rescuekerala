@@ -12,6 +12,7 @@ class RequestAdmin(admin.ModelAdmin):
     readonly_fields = ('dateadded',)
     ordering = ('district',)
     list_display = ['requestee_phone', 'status', 'district', 'location', 'show_request', 'dateadded']
+    list_per_page = 50
 
     def show_request(self, obj):
         return format_html(mark_safe('<a href="/api/view/%s/">View</a>' % obj.id))
@@ -71,6 +72,7 @@ class CompletedRequestAdmin(RequestAdmin):
 class GroundWorkerAdmin(admin.ModelAdmin):
     exclude = ('user',)
     list_display = ['location', 'type']
+    list_per_page = 50
 
     def get_queryset(self, request):
         qs = super(GroundWorkerAdmin, self).get_queryset(request)
@@ -80,6 +82,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     exclude = ('user',)
     list_display = ['phone', 'type', 'district', 'panchayath', 'location']
     list_filter = ('district', 'type')
+    list_per_page = 50
 
     def phone(self, obj):
         if obj.user:
