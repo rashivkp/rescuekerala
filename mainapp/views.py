@@ -13,7 +13,8 @@ def proces_log(request):
     requestee_phone = request.GET.get('From')
 
     if requestee_phone:
-        obj, created = Request.objects.filter(requestee_phone=requestee_phone, status='new')
+        if Request.objects.filter(requestee_phone=requestee_phone, status='pro').count():
+            return HttpResponse('duplicate')
 
         obj, created = Request.objects.get_or_create(requestee_phone=requestee_phone,
                 status='new')
