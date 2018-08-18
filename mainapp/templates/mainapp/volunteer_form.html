@@ -1,21 +1,21 @@
-{% extends 'base.html' %}
-{% load bootstrap3 %}
-{% load static %}
+  {% extends 'base.html' %}
+  {% load bootstrap3 %}
+  {% load static %}
 
-{% block javascript %}
+  {% block javascript %}
   <script src="{% static 'js/jquery.chained.js' %}"></script>
   <script type="text/javascript">
-  $(function(){
-    $("#sub_type").chainedTo("#service_type");
-    $("#specific").chainedTo("#sub_type");
+    $(function(){
+      $("#sub_type").chained("#service_type");
+      $("#specific").chained("#sub_type");
     });
   </script>
-{% endblock %}
+  {% endblock %}
 
-{% block content %}
+  {% block content %}
 
   <form method="post" class="form">
-  {% csrf_token %}
+    {% csrf_token %}
     <label for="name">Your name: </label>
     <input id="name" type="text" name="name" value="">
     <br>
@@ -67,57 +67,57 @@
     <br>
     <select name="sub_type" id="sub_type">
       <option value="">---</option>
-      <option class="Rescue" value="In_Site_Rescue">In Site Rescue</option>
-      <option class="Rescue" value="Relief_Camps">Relief Camps</option>
+      <option data-chained="Rescue" value="In_Site_Rescue">In Site Rescue</option>
+      <option data-chained="Rescue" value="Relief_Camps">Relief Camps</option>
 
-      <option class="Food" value="Store">Store</option>
-      <option class="Food" value="Transportation">Transportation</option>
-      <option class="Food" value="Distribution">Distribution</option>
+      <option data-chained="Food" value="Store">Store</option>
+      <option data-chained="Food" value="Transportation">Transportation</option>
+      <option data-chained="Food" value="Distribution">Distribution</option>
 
-      <option class="Medical_Assistance" value="Doctor">Doctor</option>
-      <option class="Medical_Assistance" value="Medicine">Medicine</option>
-      <option class="Medical_Assistance" value="Ambulance">Ambulance</option>
-      <option class="Medical_Assistance" value="Pharmacist">Pharmacist</option>
-      <option class="Medical_Assistance" value="Nursing_Staff">Nursing Staff</option>
+      <option data-chained="Medical_Assistance" value="Doctor">Doctor</option>
+      <option data-chained="Medical_Assistance" value="Medicine">Medicine</option>
+      <option data-chained="Medical_Assistance" value="Ambulance">Ambulance</option>
+      <option data-chained="Medical_Assistance" value="Pharmacist">Pharmacist</option>
+      <option data-chained="Medical_Assistance" value="Nursing_Staff">Nursing Staff</option>
     </select>
 
     <br>
     <select name="specific" id="specific">
       <option value="">---</option>
-      <option class="Relief_Camps" value="Medical">Medical</option>
-      <option class="Relief_Camps" value="Food">Food</option>
-      <option class="Relief_Camps" value="Transportation">Transportation</option>
-      <option class="Relief_Camps" value="Volunteer">Volunteer</option>
+      <option data-chained="Relief_Camps" value="Medical">Medical</option>
+      <option data-chained="Relief_Camps" value="Food">Food</option>
+      <option data-chained="Relief_Camps" value="Transportation">Transportation</option>
+      <option data-chained="Relief_Camps" value="Volunteer">Volunteer</option>
 
-      <option class="In_Site_Rescue" value="Boat">Boat </option>
-      <option class="In_Site_Rescue" value="Heavy_Vehicles">Heavy Vehicles</option>
-      <option class="In_Site_Rescue" value="LMV">LMV</option>
-      <option class="In_Site_Rescue" value="Volunteer">Volunteer</option>
+      <option data-chained="In_Site_Rescue" value="Boat">Boat </option>
+      <option data-chained="In_Site_Rescue" value="Heavy_Vehicles">Heavy Vehicles</option>
+      <option data-chained="In_Site_Rescue" value="LMV">LMV</option>
+      <option data-chained="In_Site_Rescue" value="Volunteer">Volunteer</option>
 
-      <option class="Store" value="Packed Food">Packed Food</option>
-      <option class="Store" value="Raw_Materials">Raw Materials</option>
-      <option class="Store" value="Drinking_Water">Drinking Water</option>
+      <option data-chained="Store" value="Packed Food">Packed Food</option>
+      <option data-chained="Store" value="Raw_Materials">Raw Materials</option>
+      <option data-chained="Store" value="Drinking_Water">Drinking Water</option>
 
-      <option class="Transportation" value="Heavy_Vehicle">Heavy Vehicle</option>
-      <option class="Transportation" value="LMV">LMV</option>
+      <option data-chained="Transportation" value="Heavy_Vehicle">Heavy Vehicle</option>
+      <option data-chained="Transportation" value="LMV">LMV</option>
 
-      <option class="Distribution" value="Volunteer">Volunteer</option>
+      <option data-chained="Distribution" value="Volunteer">Volunteer</option>
 
-      <option class="Doctor" value="Can_work_at_Relief_Camp">Can work at Relief Camp</option>
-      <option class="Doctor" value="Other">Other</option>
+      <option data-chained="Doctor" value="Can_work_at_Relief_Camp">Can work at Relief Camp</option>
+      <option data-chained="Doctor" value="Other">Other</option>
 
-      <option class="Nursing_Staff" value="Can_work_at_Relief Camp">Can work at Relief Camp</option>
-      <option class="Nursing_Staff" value="Other">Other</option>
+      <option data-chained="Nursing_Staff" value="Can_work_at_Relief Camp">Can work at Relief Camp</option>
+      <option data-chained="Nursing_Staff" value="Other">Other</option>
 
-      <option class="Pharmacist" value="Willing_to_work at Relief Camp">Willing to work at Relief Camp</option>
-      <option class="Pharmacist" value="Other">Other</option>
+      <option data-chained="Pharmacist" value="Willing_to_work at Relief Camp">Willing to work at Relief Camp</option>
+      <option data-chained="Pharmacist" value="Other">Other</option>
 
-      <option class="Medicine" value="Store">Store</option>
-      <option class="Medicine" value="Transportation">Transportation</option>
-      <option class="Medicine" value="Nursing">Nursing</option>
+      <option data-chained="Medicine" value="Store">Store</option>
+      <option data-chained="Medicine" value="Transportation">Transportation</option>
+      <option data-chained="Medicine" value="Nursing">Nursing</option>
 
-      <option class="Ambulance" value="With_Life_supporting_Instruments">With Life supporting Instruments</option>
-      <option class="Ambulance" value="Without_LSI">Without LSI</option>
+      <option data-chained="Ambulance" value="With_Life_supporting_Instruments">With Life supporting Instruments</option>
+      <option data-chained="Ambulance" value="Without_LSI">Without LSI</option>
     </select>
     <button type="submit" class="btn btn-primary">
       {% bootstrap_icon "star" %} Register as volunteer
