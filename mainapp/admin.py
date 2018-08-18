@@ -122,8 +122,8 @@ class VolunteerAdmin(admin.ModelAdmin):
         return qs.exclude(district=None)
 
 class ServiceAdmin(admin.ModelAdmin):
-    ordering = ('level',)
-    list_display = ['name', 'level', 'parent']
+    ordering = ('service_group',)
+    list_display = ['name', 'service_group', 'service_type']
 
 
 admin.site.register(Service, ServiceAdmin)
