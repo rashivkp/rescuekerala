@@ -114,6 +114,7 @@ class Request(models.Model):
     supply_details = models.CharField(max_length=100, blank=True, null=True)
     dateadded = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    resuced = models.BooleanField(default=False)
 
     def summarise(self):
         return 1
