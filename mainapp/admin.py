@@ -8,10 +8,10 @@ from check_assignment import *
 
 
 class RequestAdmin(admin.ModelAdmin):
-    actions = ['download_csv']
+    actions = ['download_csv', 'update_resucue_status']
     readonly_fields = ('dateadded',)
     ordering = ('district',)
-    list_display = ['requestee_phone', 'status', 'district', 'location', 'show_request', 'dateadded']
+    list_display = ['requestee_phone', 'status', 'resuced', 'district', 'location', 'show_request', 'dateadded']
     list_per_page = 50
 
     def show_request(self, obj):
@@ -32,6 +32,13 @@ class RequestAdmin(admin.ModelAdmin):
         response = HttpResponse(f, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=requests.csv'
         return response
+
+    def update_resucue_status(self, request, queryset):
+        if request.user.is_superuser:  # or Volunteer.objects.filter(user=request.user, type='hotline').exists():
+            queryset.update(resuced=True)
+
+    update_resucue_status.short_description = "Mark selected requests as resuced"
+
 
     list_filter = ('district', 'status',)
 
