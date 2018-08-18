@@ -80,14 +80,40 @@ class GroundWorkerAdmin(admin.ModelAdmin):
 
 class VolunteerAdmin(admin.ModelAdmin):
     exclude = ('user',)
-    list_display = ['phone', 'type', 'district', 'panchayath', 'location']
+    list_display = ['phone', 'name', 'type', 'district', 'panchayath', 'location']
     list_filter = ('district', 'type')
     list_per_page = 50
+    actions = ['download_csv']
+
+    def name(self, obj):
+        if obj.user:
+            return obj.user.first_name
+        return ''
 
     def phone(self, obj):
         if obj.user:
             return obj.user.username
         return obj.location
+
+    def download_csv(self, request, queryset):
+        f = open('vtest.csv', 'w')
+        writer = csv.writer(f)
+        l = ['name', 'phone', 'district', 'panchayath', 'location', 'type']
+        writer.writerow(l)
+        for volunteer in Volunteer.objects.all().exclude(district=None):
+            row = [volunteer.user.first_name, volunteer.user.username, volunteer.get_district_display(),
+                    volunteer.location, volunteer.type]
+            writer.writerow(row)
+
+        f.close()
+        f = open('vtest.csv', 'r')
+        response = HttpResponse(f, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=volunteers-other.csv'
+        return response
+
+    def get_queryset(self, request):
+        qs = super(__class__, self).get_queryset(request)
+        return qs.exclude(district=None)
 
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(GroundWorker, GroundWorkerAdmin)
