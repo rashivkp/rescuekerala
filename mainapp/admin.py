@@ -123,7 +123,7 @@ class VolunteerAdmin(admin.ModelAdmin):
 
 class ServiceAdmin(admin.ModelAdmin):
     ordering = ('service_group',)
-    list_display = ['name', 'service_group', 'service_type']
+    list_display = ['service_item', 'service_group', 'service_type']
 
 
 admin.site.register(Service, ServiceAdmin)

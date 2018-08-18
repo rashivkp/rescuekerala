@@ -51,12 +51,12 @@ vol_categories = (
 )
 
 class Service(models.Model):
-    name = models.CharField(blank=True, null=True, max_length=100,verbose_name='Location')
+    service_item = models.CharField(blank=True, null=True, max_length=100)
     service_group = models.CharField(blank=True, null=True, max_length=100)
     service_type = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return str(self.name) + '-' + str(self.service_group)
+        return str(self.service_item) + '-' + str(self.service_group)
 
 class Volunteer(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -76,9 +76,6 @@ class Volunteer(models.Model):
     area_willing_to_support = models.CharField(blank=True, null=True, max_length = 500)
     is_smartphone = models.BooleanField(blank=True, default=False, max_length = 500)
     availability = models.CharField(blank=True, null=True, max_length = 100)
-    sevice_type = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='type')
-    sevice_group = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='group')
-    sevice_item = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='item')
     services = models.ManyToManyField(Service)
 
 
