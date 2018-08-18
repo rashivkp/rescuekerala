@@ -6,8 +6,8 @@
   <script src="{% static 'js/jquery.chained.js' %}"></script>
   <script type="text/javascript">
     $(function(){
-      $("#sub_type").chained("#service_type");
-      $("#specific").chained("#sub_type");
+      $("#service_group").chained("#service_type");
+      $("#service_item").chained("#service_group");
     });
   </script>
   {% endblock %}
@@ -16,17 +16,26 @@
 
   <form method="post" class="form">
     {% csrf_token %}
-    <label for="name">Your name: </label>
-    <input id="name" type="text" name="name" value="">
-    <br>
-    <label for="mobile">Your mobile: </label>
-    <input id="mobile" type="text" name="mobile" value="">
-    <br>
+    <div class="form-group">
+      <label for="name">Your name: </label>
+      <input class="form-control" id="name" type="text" name="name" value="">
+    </div>
+    <div class="form-group">
+    <label for="mobile">Your mobile number: </label>
+    <input class="form-control" id="mobile" type="text" name="mobile" value="">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input id="is_smartphone" name="is_smartphone" type="checkbox"> I am using a smart phone
+      </label>
+    </div>
+    <div class="form-group">
     <label for="password">Password: </label>
-    <input id="password" type="password" name="password">
-    <br>
+    <input class="form-control" id="password" type="password" name="password">
+    </div>
+    <div class="form-group">
     <label for="district">District: </label>
-    <select name="district">
+    <select class="form-control" name="district">
       <option value="tvm">Thiruvananthapuram</option>
       <option value="ptm">Pathanamthitta</option>
       <option value="alp">Alappuzha</option>
@@ -42,30 +51,35 @@
       <option value="ekm">Ernakulam</option>
       <option value="kol">Kollam</option>
     </select>
-    <br>
+    </div>
+    <div class="form-group">
     <label for="panchayath">Panchayath: </label>
-    <input id="panchayath" type="text" name="panchayath">
-    <br>
+    <input class="form-control" id="panchayath" type="text" name="panchayath">
+    </div>
+    <div class="form-group">
     <label for="location">Location: </label>
-    <input id="location" type="text" name="location">
-    <br>
+    <input class="form-control" id="location" type="text" name="location">
+    </div>
+    <div class="form-group">
     <label for="type">Type: </label>
-    <select name="type">
+    <select class="form-control" name="type">
       <option value="it">IT</option>
       <option value="ground">Ground Work</option>
       <option value="manager">Manager</option>
       <option value="hotline">Hotline</option>
     </select>
-    <br>
-    <select id="service_type" name="service_type">
+    </div>
+    <div class="form-group">
+    <select class="form-control" id="service_type" name="service_type">
       <option value="">---</option>
       <option value="Rescue">Rescue</option>
       <option value="Food">Food</option>
       <option value="Medical_Assistance">Medical Assistance</option>
     </select>
 
-    <br>
-    <select name="sub_type" id="sub_type">
+    </div>
+    <div class="form-group">
+    <select class="form-control" name="sevice_group" id="service_group">
       <option value="">---</option>
       <option data-chained="Rescue" value="In_Site_Rescue">In Site Rescue</option>
       <option data-chained="Rescue" value="Relief_Camps">Relief Camps</option>
@@ -81,8 +95,9 @@
       <option data-chained="Medical_Assistance" value="Nursing_Staff">Nursing Staff</option>
     </select>
 
-    <br>
-    <select name="specific" id="specific">
+    </div>
+    <div class="form-group">
+    <select class="form-control" name="sevice_item" id="service_item">
       <option value="">---</option>
       <option data-chained="Relief_Camps" value="Medical">Medical</option>
       <option data-chained="Relief_Camps" value="Food">Food</option>
@@ -119,6 +134,7 @@
       <option data-chained="Ambulance" value="With_Life_supporting_Instruments">With Life supporting Instruments</option>
       <option data-chained="Ambulance" value="Without_LSI">Without LSI</option>
     </select>
+  </div>
     <button type="submit" class="btn btn-primary">
       {% bootstrap_icon "star" %} Register as volunteer
     </button>
