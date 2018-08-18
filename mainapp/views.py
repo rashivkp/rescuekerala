@@ -58,11 +58,13 @@ def approve_volunteer(request):
             volunteer_phone = volunteer_phone[1:]
         user = User.objects.filter(username=volunteer_phone).first()
         if user:
+            if user.is_active == True:
+                return HttpResponse('Already Appproved')
             user.is_active = True
             user.save()
             volunteer = Volunteer.objects.filter(user=user).first()
-            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status={}&Comments={}&Who={}"'.format(
-                volunteer_phone,str(user.first_name),str(volunteer.get_district_display())+','+str(volunteer.panchayath)+','+str(volunteer.location), volunteer.type))
+            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status={}&Comments={}&Who=ground"'.format(
+                volunteer_phone,volunteer.type +','+ str(user.first_name),str(volunteer.get_district_display())+','+str(volunteer.panchayath)+','+str(volunteer.location) ))
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
