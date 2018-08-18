@@ -102,7 +102,8 @@ class VolunteerAdmin(admin.ModelAdmin):
         writer.writerow(l)
         for volunteer in Volunteer.objects.all().exclude(district=None):
             row = [volunteer.user.first_name, volunteer.user.username, volunteer.get_district_display(),
-                    volunteer.location, volunteer.type]
+                    volunteer.panchayath, volunteer.location, volunteer.type]
+            [x.encode('utf-8') for x in row]
             writer.writerow(row)
 
         f.close()
