@@ -2,13 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
-from .models import Request, RequestLog, Volunteer
+from .models import Request, RequestLog, Volunteer, Service
 import django_filters
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import json
 from django.contrib.auth.models import User, Group
 from django import forms
 from os import system
+
 
 def proces_log(request):
     requestee_phone = request.GET.get('From')
@@ -17,8 +18,7 @@ def proces_log(request):
         if Request.objects.filter(requestee_phone=requestee_phone, status='pro').count():
             return HttpResponse('duplicate')
 
-        obj, created = Request.objects.get_or_create(requestee_phone=requestee_phone,
-                status='new')
+        obj, created = Request.objects.get_or_create(requestee_phone=requestee_phone, status='new')
         RequestLog.objects.create(request=obj, details=json.dumps(request.GET))
 
     return HttpResponse('success')
