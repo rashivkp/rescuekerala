@@ -83,7 +83,7 @@ def view_request(request, pk):
 @csrf_exempt
 def update_victim(request):
     if request.method=='POST':
-        json_data=json.loads(request.body)
+        json_data=json.loads(request.body.decode('utf-8'))
         victim, created = Victim.objects.get_or_create(row=json_data['rowNum'], timestamp=json_data['row'][0])
 
         victim.name = json_data['row'][1]
