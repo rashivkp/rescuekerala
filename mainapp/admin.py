@@ -76,7 +76,7 @@ class GroundWorkerAdmin(admin.ModelAdmin):
 
     def name(self, obj):
         if obj.user:
-            return str(obj.user.first_name)+'-'+str(obj.user.usernamge)
+            return str(obj.user.first_name)+'-'+str(obj.user.username)
         return ''
 
     def get_queryset(self, request):
