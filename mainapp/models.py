@@ -171,3 +171,18 @@ class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
     details = models.TextField(blank=True, null=True)
 
+class Victim(models.Model):
+    row = models.IntegerField(blank=True, null=True)
+    timestamp = models.CharField(max_length=30, blank=True, null=True)
+    name = models.CharField(blank=True, null=True, max_length=200,verbose_name='Name')
+    contact = models.CharField(max_length=50, blank=True, null=True)
+    coordinates = models.CharField(max_length=50, blank=True, null=True)
+    status = models.CharField(max_length=200, blank=True, null=True)
+    location = models.CharField(max_length=200, blank=True, null=True)
+    no_of_people =  models.IntegerField(blank=True, null=True)
+    degree_of_emergency = models.CharField(max_length=200, blank=True, null=True)
+    district = models.CharField(max_length=100, blank=True, null=True)
+    help_required_immediatly = models.CharField(max_length=100, blank=True, null=True)
+    done = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    updated_at = models.DateTimeField(blank=True, null=True, auto_now=True)
