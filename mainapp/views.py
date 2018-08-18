@@ -60,6 +60,9 @@ def approve_volunteer(request):
         if user:
             user.is_active = True
             user.save()
+            volunteer = Volunteer.objects.filter(user=user).first()
+            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status={}&Comments={}&Who={}"'.format(
+                volunteer_phone,str(user.first_name),str(volunteer.get_district_display())+','+str(volunteer.panchayath)+','+str(volunteer.location), volunteer.type))
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
