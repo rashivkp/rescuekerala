@@ -132,8 +132,13 @@ class ServiceAdmin(admin.ModelAdmin):
     ordering = ('level',)
     list_display = ['name', 'level', 'parent']
 
+class VictimAdmin(admin.ModelAdmin):
+    list_display = ['row', 'name', 'contact', 'done']
+    search_fields = ('name', 'row', 'contact', 'location')
+    list_filter = ('district', 'done',)
 
-admin.site.register(Victim)
+
+admin.site.register(Victim, VictimAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(GroundWorker, GroundWorkerAdmin)
