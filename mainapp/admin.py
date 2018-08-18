@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Request, NewRequest, CompletedRequest, Volunteer, GroundWorker
+from .models import Request, NewRequest, CompletedRequest, Volunteer, GroundWorker, Service
 import csv
 from django.http import HttpResponse
 from django.utils.html import format_html
@@ -121,6 +121,12 @@ class VolunteerAdmin(admin.ModelAdmin):
         qs = super(__class__, self).get_queryset(request)
         return qs.exclude(district=None)
 
+class ServiceAdmin(admin.ModelAdmin):
+    ordering = ('level',)
+    list_display = ['name', 'level', 'parent']
+
+
+admin.site.register(Service, ServiceAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(GroundWorker, GroundWorkerAdmin)
 admin.site.register(Request, RequestAdmin)

@@ -50,6 +50,14 @@ vol_categories = (
     ('oth', 'Other')
 )
 
+class Service(models.Model):
+    name = models.CharField(blank=True, null=True, max_length=100,verbose_name='Location')
+    level = models.IntegerField(blank=True, null=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.name) + '-' + str(self.level)
+
 class Volunteer(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     district = models.CharField(
@@ -65,6 +73,12 @@ class Volunteer(models.Model):
         max_length = 15,
         choices = volunteer_types
     )
+    area_willing_to_support = models.CharField(blank=True, null=True, max_length = 500)
+    is_smartphone = models.BooleanField(blank=True, default=False, max_length = 500)
+    availability = models.CharField(blank=True, null=True, max_length = 100)
+    sevice_type = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_type')
+    sevice_group = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_group')
+    sevice_item = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_item')
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -156,5 +170,4 @@ class GroundWorker(Volunteer):
 class RequestLog(models.Model):
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
     details = models.TextField(blank=True, null=True)
-
 
