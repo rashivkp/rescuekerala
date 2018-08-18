@@ -1,14 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
-from django.views.generic.base import TemplateView
-from .models import Request, RequestLog, Volunteer
-import django_filters
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from .models import Request, RequestLog, Volunteer, Victim
 import json
 from django.contrib.auth.models import User, Group
 from django import forms
 from os import system
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 def proces_log(request):
     requestee_phone = request.GET.get('From')
@@ -82,4 +80,25 @@ def view_request(request, pk):
 
     return render(request, 'request_view.html', {'req':req})
 
+@csrf_exempt
+def update_victim(request):
+    if request.method=='POST':
+        json_data=json.loads(request.body)
+        victim, created = Victim.objects.get_or_create(row=json_data['rowNum'], timestamp=json_data['row'][0])
 
+        victim.name = json_data['row'][1]
+        victim.contact = json_data['row'][2]
+        victim.coordinates = json_data['row'][3]
+        victim.location = json_data['row'][4]
+        victim.status = json_data['row'][5]
+        victim.no_of_people = json_data['row'][6]
+        victim.degree_of_emergency = json_data['row'][7]
+        victim.district = json_data['row'][8]
+        victim.help_required_now = json_data['row'][9]
+        victim.done = json_data['row'][11]
+        victim.save()
+
+        if created:
+            return HttpResponse('inserted')
+        return HttpResponse('updated')
+    return HttpResponse('')

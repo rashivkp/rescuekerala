@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Request, NewRequest, CompletedRequest, Volunteer, GroundWorker, Service
+from .models import Request, NewRequest, CompletedRequest, Volunteer, GroundWorker, Service, Victim
 import csv
 from django.http import HttpResponse
 from django.utils.html import format_html
@@ -126,6 +126,7 @@ class ServiceAdmin(admin.ModelAdmin):
     list_display = ['name', 'level', 'parent']
 
 
+admin.site.register(Victim)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(GroundWorker, GroundWorkerAdmin)
