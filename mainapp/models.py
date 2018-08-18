@@ -79,6 +79,7 @@ class Volunteer(models.Model):
     sevice_type = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_type')
     sevice_group = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_group')
     sevice_item = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_item')
+    services = models.ManyToManyField(Service)
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)

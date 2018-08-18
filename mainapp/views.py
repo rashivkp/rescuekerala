@@ -25,7 +25,9 @@ def proces_log(request):
 
 def create_volunteer(request):
     if request.method == 'GET':
-        return render(request, 'mainapp/volunteer_form.html')
+        # services will be sent to template in this format [(1, 'Rescue'),
+        # (2, 'In Site Rescue'), (3, 'Boat'), (4, 'Heavy Vehicles'), (5, 'LMV'), (6, 'Volunteer'), (7, 'Relief Camps'), (8, 'Medical'), (9, 'Food'), (10, 'Transportation'), (11, 'Volunteer')]
+        return render(request, 'mainapp/volunteer_form.html', {'services': list(Service.objects.all().values_list('id', 'name'))})
 
     volunteer_phone = request.POST.get('mobile')
     password = request.POST.get('password')
@@ -34,6 +36,8 @@ def create_volunteer(request):
     name = request.POST.get('name')
     district = request.POST.get('district')
     panchayath = request.POST.get('panchayath')
+    # expecting services back on post as services = [1,2,3]
+    services = request.POST.getlist('services', [])
 
     if volunteer_phone:
         if User.objects.filter(username=volunteer_phone).count():
@@ -44,6 +48,8 @@ def create_volunteer(request):
         user.is_active = False
         user.save()
         volunteer = Volunteer.objects.create(user=user, location=location, type=type, panchayath=panchayath, district=district)
+        for s in services:
+            volunteer.services.add(int(s))
         group, created = Group.objects.get_or_create(name='Volunteer')
         group.user_set.add(user)
         return render(request, 'volunteer_created.html', {'user':user})
