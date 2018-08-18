@@ -71,8 +71,13 @@ class CompletedRequestAdmin(RequestAdmin):
 
 class GroundWorkerAdmin(admin.ModelAdmin):
     exclude = ('user',)
-    list_display = ['location', 'type']
+    list_display = ['location', 'type', 'name']
     list_per_page = 50
+
+    def name(self, obj):
+        if obj.user:
+            return str(obj.user.first_name)+'-'+str(obj.user.usernamge)
+        return ''
 
     def get_queryset(self, request):
         qs = super(GroundWorkerAdmin, self).get_queryset(request)
