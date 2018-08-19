@@ -56,7 +56,9 @@ class Service(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return str(self.name) + '-' + str(self.level)
+        if self.parent:
+            return str(self.parent) + '-' + str(self.name)
+        return str(self.name)
 
     def children(self):
         return Service.objects.filter(parent=self)

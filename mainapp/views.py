@@ -7,6 +7,8 @@ from django import forms
 from os import system
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.forms.models import model_to_dict
+
 
 def proces_log(request):
     requestee_phone = request.GET.get('From')
@@ -76,8 +78,11 @@ def approve_volunteer(request):
             user.is_active = True
             user.save()
             volunteer = Volunteer.objects.filter(user=user).first()
-            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status={}&Comments={}&Who=ground"'.format(
-                volunteer_phone,volunteer.type +','+ str(user.first_name),str(volunteer.get_district_display())+','+str(volunteer.panchayath)+','+str(volunteer.location) ))
+            dict = model_to_dict(volunteer)
+            print('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
+                volunteer_phone,volunteer.type +','+ str(user.first_name), dict))
+            #system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
+                #volunteer_phone,volunteer.type +','+ str(user.first_name), dict))
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
