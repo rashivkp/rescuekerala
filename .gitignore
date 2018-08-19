@@ -8,3 +8,4 @@ mysite.log
 *.csv
 *.swp
 credentials.json
+development.db
