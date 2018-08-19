@@ -79,10 +79,8 @@ def approve_volunteer(request):
             user.save()
             volunteer = Volunteer.objects.filter(user=user).first()
             dict = model_to_dict(volunteer)
-            print('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
+            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
                 volunteer_phone,volunteer.type +','+ str(user.first_name), dict))
-            #system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
-                #volunteer_phone,volunteer.type +','+ str(user.first_name), dict))
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
