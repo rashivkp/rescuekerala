@@ -51,12 +51,16 @@ vol_categories = (
 )
 
 class Service(models.Model):
-    name = models.CharField(blank=True, null=True, max_length=100,verbose_name='Location')
+    name = models.CharField(max_length=200)
     level = models.IntegerField(blank=True, null=True)
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.name) + '-' + str(self.level)
+
+    def children(self):
+        return Service.objects.filter(parent=self)
+
 
 class Volunteer(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -74,11 +78,9 @@ class Volunteer(models.Model):
         choices = volunteer_types
     )
     area_willing_to_support = models.CharField(blank=True, null=True, max_length = 500)
-    is_smartphone = models.BooleanField(blank=True, default=False, max_length = 500)
+    is_smartphone = models.BooleanField(blank=True, default=False)
     availability = models.CharField(blank=True, null=True, max_length = 100)
-    sevice_type = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_type')
-    sevice_group = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_group')
-    sevice_item = models.ForeignKey(Service, on_delete=models.SET_NULL, blank=True, null=True, related_name='service_item')
+    services = models.ManyToManyField(Service)
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
