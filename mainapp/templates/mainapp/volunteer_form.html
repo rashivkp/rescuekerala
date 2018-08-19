@@ -1,21 +1,45 @@
-{% extends 'base.html' %}
-{% load bootstrap3 %}
+  {% extends 'base.html' %}
+  {% load bootstrap3 %}
+  {% load static %}
 
-{% block content %}
+  {% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-multiselect.css' %}"/>
+  {% endblock %}
+
+  {% block javascript %}
+  <script src="{% static 'js/bootstrap-multiselect.js' %}"></script>
+  <script type="text/javascript">
+    $(function(){
+        $('#services').multiselect({buttonWidth: '100%'});
+    });
+  </script>
+  {% endblock %}
+
+  {% block content %}
 
   <form method="post" class="form">
-  {% csrf_token %}
-    <label for="name">Your name: </label>
-    <input id="name" type="text" name="name" value="">
-    <br>
-    <label for="mobile">Your mobile: </label>
-    <input id="mobile" type="text" name="mobile" value="">
-    <br>
+    <legend>Volunteer Registration</legend>
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Your name: </label>
+      <input class="form-control" id="name" type="text" name="name" value="">
+    </div>
+    <div class="form-group">
+    <label for="mobile">Your mobile number: </label>
+    <input class="form-control" id="mobile" type="text" name="mobile" value="">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input id="is_smartphone" name="is_smartphone" value="1" type="checkbox"> I am using a smart phone
+      </label>
+    </div>
+    <div class="form-group">
     <label for="password">Password: </label>
-    <input id="password" type="password" name="password">
-    <br>
+    <input class="form-control" id="password" type="password" name="password">
+    </div>
+    <div class="form-group">
     <label for="district">District: </label>
-    <select name="district">
+    <select class="form-control" name="district">
       <option value="tvm">Thiruvananthapuram</option>
       <option value="ptm">Pathanamthitta</option>
       <option value="alp">Alappuzha</option>
@@ -31,24 +55,49 @@
       <option value="ekm">Ernakulam</option>
       <option value="kol">Kollam</option>
     </select>
-    <br>
+    </div>
+    <div class="form-group">
     <label for="panchayath">Panchayath: </label>
-    <input id="panchayath" type="text" name="panchayath">
-    <br>
+    <input class="form-control" id="panchayath" type="text" name="panchayath">
+    </div>
+    <div class="form-group">
     <label for="location">Location: </label>
-    <input id="location" type="text" name="location">
-    <br>
+    <input class="form-control" id="location" type="text" name="location">
+    </div>
+    <div class="form-group">
     <label for="type">Type: </label>
-    <select name="type">
+    <select class="form-control" name="type">
       <option value="it">IT</option>
       <option value="ground">Ground Work</option>
       <option value="manager">Manager</option>
       <option value="hotline">Hotline</option>
     </select>
-    <br>
-  <button type="submit" class="btn btn-primary">
+    </div>
+    <div class="form-group">
+    <label for="mobile">Area willing to support: </label>
+    <input class="form-control" id="area_willing_to_support" type="text" name="area_willing_to_support">
+    </div>
+    <div class="form-group">
+    <label for="mobile">Availability(Day/Night/Hours): </label>
+    <input class="form-control" id="availability" type="text" name="availability">
+    </div>
+    <div class="form-group">
+    <label for="type">Service Type: </label>
+    <select class="form-control" multiple="multiple" name="services" id="services">
+      {% for one in services %}
+      <optgroup label="{{ one.name }}">
+      {% for two in one.children %}
+      <optgroup label="{{ two.name }}">
+      {% for three in two.children %}
+      <option value="{{ three.id }}">{{ three.name }}</option>
+      {% endfor %}
+      {% endfor %}
+      {% endfor %}
+  </select>
+</div>
+<button type="submit" class="btn btn-primary">
   {% bootstrap_icon "star" %} Register as volunteer
-  </button>
+</button>
   </form>
 
-{% endblock %}
+  {% endblock %}

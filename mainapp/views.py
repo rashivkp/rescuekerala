@@ -1,12 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Request, RequestLog, Volunteer, Victim
+from .models import Request, RequestLog, Volunteer, Victim, Service
 import json
 from django.contrib.auth.models import User, Group
 from django import forms
 from os import system
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.forms.models import model_to_dict
+
 
 def proces_log(request):
     requestee_phone = request.GET.get('From')
@@ -23,7 +25,9 @@ def proces_log(request):
 
 def create_volunteer(request):
     if request.method == 'GET':
-        return render(request, 'mainapp/volunteer_form.html')
+        services = Service.objects.filter(level=1)
+        return render(request, 'mainapp/volunteer_form.html',
+                {'services':services})
 
     volunteer_phone = request.POST.get('mobile')
     password = request.POST.get('password')
@@ -32,6 +36,10 @@ def create_volunteer(request):
     name = request.POST.get('name')
     district = request.POST.get('district')
     panchayath = request.POST.get('panchayath')
+    is_smartphone = request.POST.get('is_smartphone', False)
+    services = request.POST.getlist('services')
+    availability = request.POST.get('availability')
+    area_willing_to_support = request.POST.get('area_willing_to_support')
 
     if volunteer_phone:
         if User.objects.filter(username=volunteer_phone).count():
@@ -41,7 +49,16 @@ def create_volunteer(request):
         user.is_staff = True
         user.is_active = False
         user.save()
-        volunteer = Volunteer.objects.create(user=user, location=location, type=type, panchayath=panchayath, district=district)
+        volunteer = Volunteer.objects.create(user=user, location=location, type=type)
+        volunteer.panchayath = panchayath
+        volunteer.district = district
+        volunteer.is_smartphone = is_smartphone
+        volunteer.availability = availability
+        volunteer.area_willing_to_support = area_willing_to_support
+        for service_id in services:
+            service = Service.objects.get(pk=service_id)
+            volunteer.services.add(service)
+        volunteer.save()
         group, created = Group.objects.get_or_create(name='Volunteer')
         group.user_set.add(user)
         return render(request, 'volunteer_created.html', {'user':user})
@@ -61,8 +78,11 @@ def approve_volunteer(request):
             user.is_active = True
             user.save()
             volunteer = Volunteer.objects.filter(user=user).first()
-            system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Status={}&Comments={}&Who=ground"'.format(
-                volunteer_phone,volunteer.type +','+ str(user.first_name),str(volunteer.get_district_display())+','+str(volunteer.panchayath)+','+str(volunteer.location) ))
+            dict = model_to_dict(volunteer)
+            print('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
+                volunteer_phone,volunteer.type +','+ str(user.first_name), dict))
+            #system('curl -vL "https://script.google.com/macros/s/AKfycbyirHH2K1rxt2Mhwe5xV9IJvenWVRfny7l64A7P/exec?From={}&Who=ground&Status={}&Comments={}"'.format(
+                #volunteer_phone,volunteer.type +','+ str(user.first_name), dict))
             return HttpResponse('appproved')
         else:
             volunteer, created = Volunteer.objects.get_or_create(user=None, location=volunteer_phone, type='ground')
