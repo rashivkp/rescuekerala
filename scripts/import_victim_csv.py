@@ -3,9 +3,9 @@ import csv
 
 with open("victims.csv") as f:
     reader = csv.reader(f)
-    row_num = 0
+    row_num = 1
     for row in reader:
-        if row_num == 0:
+        if row_num == 1:
             row_num += 1
             continue
 
